@@ -18,7 +18,7 @@ if [[ "$NEXT_VERSION" == "" ]]; then
 	exit 1
 fi
 
-pushd "$REPO_ROOT/deploy/charts/ingress-anubis" >/dev/null
+pushd "$REPO_ROOT/deploy/charts/kube-cleanup-operator" >/dev/null
 yq e -i '.version = "'"${NEXT_VERSION//v/}"'"' Chart.yaml
 yq e -i '.appVersion = "'"${NEXT_VERSION//v/}"'"' Chart.yaml
 

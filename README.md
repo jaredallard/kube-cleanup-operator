@@ -1,18 +1,23 @@
 # Kubernetes cleanup operator
 
 [![Build Status](https://travis-ci.org/lwolf/kube-cleanup-operator.svg?branch=master)](https://travis-ci.org/lwolf/kube-cleanup-operator)
-[![Go Report Card](https://goreportcard.com/badge/github.com/lwolf/kube-cleanup-operator)](https://goreportcard.com/report/github.com/lwolf/kube-cleanup-operator)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jaredallard/kube-cleanup-operator)](https://goreportcard.com/report/github.com/jaredallard/kube-cleanup-operator)
 [![Docker Repository on Quay](https://quay.io/repository/lwolf/kube-cleanup-operator/status "Docker Repository on Quay")](https://quay.io/repository/lwolf/kube-cleanup-operator)
 [![codecov](https://codecov.io/gh/lwolf/kube-cleanup-operator/branch/master/graph/badge.svg)](https://codecov.io/gh/lwolf/kube-cleanup-operator)
+
+> [!WARNING]
+> This repository is a permanent fork of kube-cleanup-operator, however
+> it is still being setup.
 
 Kubernetes Controller to automatically delete completed Jobs and Pods.
 Controller listens for changes in Pods and Jobs and acts accordingly with config arguments.
 
 Some common use-case scenarios:
-* Delete Jobs and their pods after their completion
-* Delete Pods stuck in a Pending state
-* Delete Pods in Evicted state
-* Delete orphaned Pods (Pods without an owner in non-running state)
+
+- Delete Jobs and their pods after their completion
+- Delete Pods stuck in a Pending state
+- Delete Pods in Evicted state
+- Delete orphaned Pods (Pods without an owner in non-running state)
 
 | flag name                  | pod                                                   | job                           |
 | -------------------------- | ----------------------------------------------------- | ----------------------------- |
@@ -21,7 +26,6 @@ Some common use-case scenarios:
 | delete-orphaned-pods-after | delete after specified period (any completion status) | N/A                           |
 | delete-evicted-pods-after  | delete on discovery                                   | N/A                           |
 | delete-pending-pods-after  | delete after specified period                         | N/A                           |
-
 
 ## Helm chart
 
@@ -34,7 +38,6 @@ $ helm search kube-cleanup
 NAME                              	CHART VERSION	APP VERSION	DESCRIPTION
 lwolf-charts/kube-cleanup-operator	1.0.0        	v0.8.1     	Kubernetes Operator to automatically delete completed Job...
 ```
-
 
 ## Usage
 
@@ -55,10 +58,9 @@ kubectl logs -f $(kubectl get pods --namespace default -l "run=cleanup-operator"
 kubectl create -f https://k8s.io/examples/controllers/job.yaml
 ```
 
-
 ## Docker images
 
-```docker pull quay.io/lwolf/kube-cleanup-operator```
+`docker pull quay.io/lwolf/kube-cleanup-operator`
 
 or you can build it yourself as follows:
 
@@ -79,30 +81,30 @@ $ ./bin/kube-cleanup-operator -run-outside-cluster -dry-run=true
 Pre v0.7.0
 
 ```
-    $ ./bin/kube-cleanup-operator --help
-    Usage of ./bin/kube-cleanup-operator:
-      -namespace string
-            Watch only this namespace (omit to operate clusterwide)
-      -run-outside-cluster
-            Set this flag when running outside of the cluster.
-      -keep-successful
-            the number of hours to keep a successful job
-            -1 - forever 
-            0  - never (default)
-            >0 - number of hours
-      -keep-failures
-            the number of hours to keep a failed job
-            -1 - forever (default)
-            0  - never
-            >0 - number of hours
-      -keep-pending
-            the number of hours to keep a pending job
-            -1 - forever (default)
-            0  - forever
-            >0 - number of hours
-      -dry-run
-            Perform dry run, print only
-``` 
+$ ./bin/kube-cleanup-operator --help
+Usage of ./bin/kube-cleanup-operator:
+  -namespace string
+        Watch only this namespace (omit to operate clusterwide)
+  -run-outside-cluster
+        Set this flag when running outside of the cluster.
+  -keep-successful
+        the number of hours to keep a successful job
+        -1 - forever 
+        0  - never (default)
+        >0 - number of hours
+  -keep-failures
+        the number of hours to keep a failed job
+        -1 - forever (default)
+        0  - never
+        >0 - number of hours
+  -keep-pending
+        the number of hours to keep a pending job
+        -1 - forever (default)
+        0  - forever
+        >0 - number of hours
+  -dry-run
+        Perform dry run, print only
+```
 
 After v0.7.0
 
@@ -140,7 +142,7 @@ Usage of ./bin/kube-cleanup-operator:
         Delete only jobs and pods that meet label selector requirements. #See https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 ```
 
-### Optional parameters 
+### Optional parameters
 
 DISCLAIMER: These parameters are not supported on this project since they are implemented by the underlying libraries. Any malfunction regarding the use them is not covered by this GitHub repository. They are included in this documentation since the debugging process is simplified.
 
@@ -156,3 +158,9 @@ DISCLAIMER: These parameters are not supported on this project since they are im
 -vmodule value
   comma-separated list of pattern=N settings for file-filtered logging
 ```
+
+## License
+
+All code modified on and before 538f00d447db507f528fd6f94fa2c3d81b9302f3
+is MIT licensed. All code modified after
+538f00d447db507f528fd6f94fa2c3d81b9302f3 is AGPL-3.0 licensed.

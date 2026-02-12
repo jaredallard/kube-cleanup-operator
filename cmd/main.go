@@ -16,12 +16,11 @@ import (
 
 	"github.com/VictoriaMetrics/metrics"
 	"k8s.io/client-go/kubernetes"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp" // TODO: Add all auth providers
-	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
+	_ "k8s.io/client-go/plugin/pkg/client/auth" // Imports all auth providers.
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog"
 
-	"github.com/lwolf/kube-cleanup-operator/pkg/controller"
+	"github.com/jaredallard/kube-cleanup-operator/pkg/controller"
 )
 
 var (
@@ -58,9 +57,9 @@ func main() {
 	legacyMode := flag.Bool("legacy-mode", true, "Legacy mode: `true` - use old `keep-*` flags, `false` - enable new `delete-*-after` flags")
 
 	dryRun := flag.Bool("dry-run", false, "Print only, do not delete anything.")
-	
+
 	labelSelector := flag.String("label-selector", "", "Delete only jobs and pods that meet label selector requirements")
-	
+
 	flag.Parse()
 	setupLogging()
 
@@ -80,7 +79,7 @@ func main() {
 	optsInfo.WriteString(fmt.Sprintf("\tkeep-successful: %d\n", *legacyKeepSuccessHours))
 	optsInfo.WriteString(fmt.Sprintf("\tkeep-failures: %d\n", *legacyKeepFailedHours))
 	optsInfo.WriteString(fmt.Sprintf("\tkeep-pending: %d\n", *legacyKeepPendingHours))
-	
+
 	optsInfo.WriteString(fmt.Sprintf("\tlabel-selector: %s\n", *labelSelector))
 	log.Println(optsInfo.String())
 

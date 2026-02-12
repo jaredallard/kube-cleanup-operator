@@ -1,0 +1,6 @@
+name: kube-cleanup-operator
+arguments:
+  license: AGPL-3.0
+  org: jaredallard
+modules:
+  - name: github.com/rgst-io/stencil-golang

@@ -65,7 +65,7 @@ func shouldDeletePod(pod *corev1.Pod, orphaned, pending, evicted, successful, fa
 		if t.IsZero() {
 			return false
 		}
-		if time.Now().Sub(t) >= pending {
+		if time.Since(t) >= pending {
 			return true
 		}
 	}

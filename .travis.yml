@@ -1,24 +1,24 @@
 language: go
 go:
-- 1.14.x
+  - 1.14.x
 
-# needed for the docker pipe
+  # needed for the docker pipe
 services:
-- docker
+  - docker
 
 jobs:
   include:
     - stage: Test
       script: make test
       after_success:
-      - bash <(curl -s https://codecov.io/bash)
+        - bash <(curl -s https://codecov.io/bash)
     - stage: Release
       before_script:
         - echo "$QUAY_PASSWORD" | docker login -u "$QUAY_LOGIN" quay.io --password-stdin
       deploy:
-      - provider: script
-        skip_cleanup: true
-        script: curl -sL http://git.io/goreleaser | bash
-        on:
-          tags: true
-          condition: $TRAVIS_OS_NAME = linux
+        - provider: script
+          skip_cleanup: true
+          script: curl -sL http://git.io/goreleaser | bash
+          on:
+            tags: true
+            condition: $TRAVIS_OS_NAME = linux

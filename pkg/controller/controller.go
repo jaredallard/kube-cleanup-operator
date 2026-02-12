@@ -51,8 +51,8 @@ type Kleaner struct {
 	deleteEvictedAfter    time.Duration
 
 	ignoreOwnedByCronjob bool
-	
-	labelSelector        string
+
+	labelSelector string
 
 	dryRun bool
 	ctx    context.Context
@@ -109,14 +109,14 @@ func NewKleaner(ctx context.Context, kclient *kubernetes.Clientset, namespace st
 		labelSelector:         labelSelector,
 	}
 	jobInformer.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		UpdateFunc: func(old, new interface{}) {
+		UpdateFunc: func(old, new any) {
 			if !reflect.DeepEqual(old, new) {
 				kleaner.Process(new)
 			}
 		},
 	})
 	podInformer.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		UpdateFunc: func(old, new interface{}) {
+		UpdateFunc: func(old, new any) {
 			if !reflect.DeepEqual(old, new) {
 				kleaner.Process(new)
 			}
@@ -159,7 +159,7 @@ func (c *Kleaner) Run() {
 	<-c.stopCh
 }
 
-func (c *Kleaner) Process(obj interface{}) {
+func (c *Kleaner) Process(obj any) {
 	switch t := obj.(type) {
 	case *batchv1.Job:
 		// skip jobs that are already in the deleting process

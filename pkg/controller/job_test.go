@@ -91,7 +91,7 @@ func TestKleaner_DeleteJob(t *testing.T) {
 		},
 		"failed (based on JobCondition) but not marked as failed jobs should be deleted": {
 			jobSpec: createJob(false, time.Time{}, 0, 0, 0, []batchv1.JobCondition{
-				batchv1.JobCondition{
+				{
 					Type:               batchv1.JobFailed,
 					Status:             corev1.ConditionTrue,
 					LastProbeTime:      metav1.NewTime(ts),
@@ -121,7 +121,7 @@ func TestKleaner_DeleteJob(t *testing.T) {
 		},
 		"failed (based on JobCondition) but 'active' jobs should be deleted": {
 			jobSpec: createJob(false, ts.Add(-time.Minute), 1, 0, 0, []batchv1.JobCondition{
-				batchv1.JobCondition{
+				{
 					Type:               batchv1.JobFailed,
 					Status:             corev1.ConditionTrue,
 					LastProbeTime:      metav1.NewTime(ts),

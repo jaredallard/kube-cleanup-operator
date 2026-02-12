@@ -73,7 +73,6 @@ func isLegacySystem(v version.Info) bool {
 // NewPodController creates a new NewPodController
 func NewPodController(ctx context.Context, kclient *kubernetes.Clientset, namespace string, dryRun bool, keepSuccessHours,
 	keepFailedHours, keepPendingHours int64, stopCh <-chan struct{}) *PodController {
-
 	serverVersion, err := kclient.ServerVersion()
 	if err != nil {
 		log.Fatalf("Failed to retrieve server serverVersion %v", err)
@@ -103,10 +102,10 @@ func NewPodController(ctx context.Context, kclient *kubernetes.Clientset, namesp
 		cache.Indexers{},
 	)
 	podInformer.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		AddFunc: func(obj interface{}) {
+		AddFunc: func(obj any) {
 			podWatcher.Process(obj)
 		},
-		UpdateFunc: func(old, new interface{}) {
+		UpdateFunc: func(old, new any) {
 			if !reflect.DeepEqual(old, new) {
 				podWatcher.Process(new)
 			}
@@ -138,7 +137,7 @@ func (c *PodController) Run() {
 	<-c.stopCh
 }
 
-func (c *PodController) Process(obj interface{}) {
+func (c *PodController) Process(obj any) {
 	podObj := obj.(*corev1.Pod)
 	// skip pods that are already in the deleting process
 	if !podObj.DeletionTimestamp.IsZero() {
@@ -213,10 +212,9 @@ func (c *PodController) deleteObjects(podObj *corev1.Pod, parentJobName string) 
 }
 
 func (c *PodController) getParentJobName(podObj *corev1.Pod) (parentJobName string) {
-
 	if c.isLegacySystem {
 		var createdMeta CreatedByAnnotation
-		err := json.Unmarshal([]byte(podObj.ObjectMeta.Annotations["kubernetes.io/created-by"]), &createdMeta)
+		err := json.Unmarshal([]byte(podObj.Annotations["kubernetes.io/created-by"]), &createdMeta)
 		if err != nil {
 			log.Printf("failed to unmarshal annotations for pod %s. %v", podObj.Name, err)
 			return

@@ -159,14 +159,12 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for {
-			<-stopCh
-			log.Println("shutting http server down")
-			err := server.Shutdown(ctx)
-			if err != nil {
-				log.Printf("failed to shutdown metrics server: %v\n", err)
-			}
-			break
+
+		<-stopCh
+
+		log.Println("shutting http server down")
+		if err := server.Shutdown(ctx); err != nil {
+			log.Printf("failed to shutdown metrics server: %v\n", err)
 		}
 	}()
 
@@ -183,14 +181,16 @@ func newClientSet(runOutsideCluster bool) (*kubernetes.Clientset, error) {
 		if os.Getenv("KUBECONFIG") != "" {
 			kubeConfigLocation = filepath.Join(os.Getenv("KUBECONFIG"))
 		} else {
-			homeDir := os.Getenv("HOME")
+			homeDir, err := os.UserHomeDir()
+			if err != nil {
+				return nil, fmt.Errorf("failed to get user's home directory: %w", err)
+			}
 			kubeConfigLocation = filepath.Join(homeDir, ".kube", "config")
 		}
 	}
 
 	// use the current context in kubeconfig
 	config, err := clientcmd.BuildConfigFromFlags("", kubeConfigLocation)
-
 	if err != nil {
 		return nil, err
 	}

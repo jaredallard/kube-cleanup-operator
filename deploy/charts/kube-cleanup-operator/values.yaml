@@ -1,11 +1,10 @@
----
 replicas: 1
 
 # imagePullSecrets -- Kubernetes image Pull Secrets
 imagePullSecrets: []
 
 image:
-  repository: quay.io/lwolf/kube-cleanup-operator
+  repository: ghcr.io/jaredallard/kube-cleanup-operator
   pullPolicy: IfNotPresent
 
 ## Additional labels and annotations for the deployment resource

@@ -1,16 +1,12 @@
 # Kubernetes cleanup operator
 
-[![Build Status](https://travis-ci.org/lwolf/kube-cleanup-operator.svg?branch=master)](https://travis-ci.org/lwolf/kube-cleanup-operator)
-[![Go Report Card](https://goreportcard.com/badge/github.com/jaredallard/kube-cleanup-operator)](https://goreportcard.com/report/github.com/jaredallard/kube-cleanup-operator)
-[![Docker Repository on Quay](https://quay.io/repository/lwolf/kube-cleanup-operator/status "Docker Repository on Quay")](https://quay.io/repository/lwolf/kube-cleanup-operator)
-[![codecov](https://codecov.io/gh/lwolf/kube-cleanup-operator/branch/master/graph/badge.svg)](https://codecov.io/gh/lwolf/kube-cleanup-operator)
-
 > [!WARNING]
 > This repository is a permanent fork of kube-cleanup-operator, however
 > it is still being setup.
 
 Kubernetes Controller to automatically delete completed Jobs and Pods.
-Controller listens for changes in Pods and Jobs and acts accordingly with config arguments.
+Controller listens for changes in Pods and Jobs and acts accordingly
+with config arguments.
 
 Some common use-case scenarios:
 
@@ -29,86 +25,27 @@ Some common use-case scenarios:
 
 ## Helm chart
 
-Chart is available to install from https://charts.lwolf.org/ (https://github.com/lwolf/kube-charts)
+Chart is available to install via oci:
 
-```
-$ helm repo add lwolf-charts http://charts.lwolf.org
-"lwolf-charts" has been added to your repositories
-$ helm search kube-cleanup
-NAME                              	CHART VERSION	APP VERSION	DESCRIPTION
-lwolf-charts/kube-cleanup-operator	1.0.0        	v0.8.1     	Kubernetes Operator to automatically delete completed Job...
-```
-
-## Usage
-
-![screensharing](http://g.recordit.co/aDU52FJIwP.gif)
-
-```
-# remember to change namespace in RBAC manifests for monitoring namespaces other than "default"
-
-kubectl create -f https://raw.githubusercontent.com/lwolf/kube-cleanup-operator/master/deploy/deployment/rbac.yaml
-
-# create deployment
-kubectl create -f https://raw.githubusercontent.com/lwolf/kube-cleanup-operator/master/deploy/deployment/deployment.yaml
-
-
-kubectl logs -f $(kubectl get pods --namespace default -l "run=cleanup-operator" -o jsonpath="{.items[0].metadata.name}")
-
-# Use simple job to test it
-kubectl create -f https://k8s.io/examples/controllers/job.yaml
+```bash
+helm install --create-namespace --namespace kube-cleanup-operator \
+  kube-cleanup-operator oci://ghcr.io/jaredallard/helm-charts/kube-cleanup-operator
 ```
 
 ## Docker images
 
-`docker pull quay.io/lwolf/kube-cleanup-operator`
-
-or you can build it yourself as follows:
-
-```console
-$ docker build .
-```
+`docker pull ghcr.io/jaredallard/kube-cleanup-operator`
 
 ## Development
 
-```console
-$ make install_deps
-$ make build
-$ ./bin/kube-cleanup-operator -run-outside-cluster -dry-run=true
+```bash
+mise run build
+./bin/kube-cleanup-operator -run-outside-cluster -dry-run=true
 ```
 
 ## Usage
 
-Pre v0.7.0
-
-```
-$ ./bin/kube-cleanup-operator --help
-Usage of ./bin/kube-cleanup-operator:
-  -namespace string
-        Watch only this namespace (omit to operate clusterwide)
-  -run-outside-cluster
-        Set this flag when running outside of the cluster.
-  -keep-successful
-        the number of hours to keep a successful job
-        -1 - forever 
-        0  - never (default)
-        >0 - number of hours
-  -keep-failures
-        the number of hours to keep a failed job
-        -1 - forever (default)
-        0  - never
-        >0 - number of hours
-  -keep-pending
-        the number of hours to keep a pending job
-        -1 - forever (default)
-        0  - forever
-        >0 - number of hours
-  -dry-run
-        Perform dry run, print only
-```
-
-After v0.7.0
-
-```
+```bash
 Usage of ./bin/kube-cleanup-operator:
   -delete-evicted-pods-after duration
         Delete pods in evicted state (golang duration format, e.g 5m), 0 - never delete (default 15m0s)
@@ -144,9 +81,13 @@ Usage of ./bin/kube-cleanup-operator:
 
 ### Optional parameters
 
-DISCLAIMER: These parameters are not supported on this project since they are implemented by the underlying libraries. Any malfunction regarding the use them is not covered by this GitHub repository. They are included in this documentation since the debugging process is simplified.
+DISCLAIMER: These parameters are not supported on this project since
+they are implemented by the underlying libraries. Any malfunction
+regarding the use them is not covered by this GitHub repository. They
+are included in this documentation since the debugging process is
+simplified.
 
-```
+```bash
 -alsologtostderr
   log to standard error as well as files
 -log_backtrace_at value

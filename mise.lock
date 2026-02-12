@@ -17,10 +17,6 @@ backend = "core:go"
 "platforms.windows-x64" = { checksum = "sha256:9bbe0fc64236b2b51f6255c05c4232532b8ecc0e6d2e00950bd3021d8a4d07d4", url = "https://dl.google.com/go/go1.26.0.windows-amd64.zip"}
 
 [[tools."go:golang.org/x/tools/cmd/goimports"]]
-version = "latest"
-backend = "go:golang.org/x/tools/cmd/goimports"
-
-[[tools."go:golang.org/x/tools/cmd/goimports"]]
 version = "0.42.0"
 backend = "go:golang.org/x/tools/cmd/goimports"
 
@@ -51,6 +47,15 @@ backend = "aqua:gotestyourself/gotestsum"
 "platforms.macos-x64" = { checksum = "sha256:99529350f4c7b780b1efc543ca0d9721b09f0a4228f0efa9281261f58fefa05a", url = "https://github.com/gotestyourself/gotestsum/releases/download/v1.13.0/gotestsum_1.13.0_darwin_amd64.tar.gz"}
 "platforms.windows-x64" = { checksum = "sha256:fd5a6dc69e46a0970593e70d85a7e75f16714e9c61d6d72ccc324eb82df5bb8a", url = "https://github.com/gotestyourself/gotestsum/releases/download/v1.13.0/gotestsum_1.13.0_windows_amd64.tar.gz"}
 
+[[tools.helm]]
+version = "4.1.0"
+backend = "aqua:helm/helm"
+"platforms.linux-arm64" = { checksum = "sha256:81315e404b6d09b65bee577a679ab269d6d44652ef2e1f66a8f922b51ca93f6b", url = "https://get.helm.sh/helm-v4.1.0-linux-arm64.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:8e7ae5cb890c56f53713bffec38e41cd8e7e4619ebe56f8b31cd383bfb3dbb83", url = "https://get.helm.sh/helm-v4.1.0-linux-amd64.tar.gz"}
+"platforms.macos-arm64" = { checksum = "sha256:f12e2723c5e8eaff3e4b3670536867289fb6ab7f797fa2efedd1c53cfaca62fb", url = "https://get.helm.sh/helm-v4.1.0-darwin-arm64.tar.gz"}
+"platforms.macos-x64" = { checksum = "sha256:a326073ae392bed8b73c415d1d9d6880b0f5accb18aa9456975562b44a87c650", url = "https://get.helm.sh/helm-v4.1.0-darwin-amd64.tar.gz"}
+"platforms.windows-x64" = { checksum = "sha256:3c214081d51356a8e07ee610a1c3add30688e80adcd3bdfcfa4204f793b30f30", url = "https://get.helm.sh/helm-v4.1.0-windows-amd64.tar.gz"}
+
 [[tools.shfmt]]
 version = "3.12.0"
 backend = "aqua:mvdan/sh"
@@ -59,3 +64,12 @@ backend = "aqua:mvdan/sh"
 "platforms.macos-arm64" = { checksum = "sha256:d903802e0ce3ecbc82b98512f55ba370b0d37a93f3f78de394f5b657052b33dd", url = "https://github.com/mvdan/sh/releases/download/v3.12.0/shfmt_v3.12.0_darwin_arm64"}
 "platforms.macos-x64" = { checksum = "sha256:c31548693de6584e6164b7ed5fbb7b4a083f2d937ca94b4e0ddf59aa461a85e4", url = "https://github.com/mvdan/sh/releases/download/v3.12.0/shfmt_v3.12.0_darwin_amd64"}
 "platforms.windows-x64" = { checksum = "sha256:c8bda517ba1c640ce4a715c0fa665439ddbe4357ba5e9b77b0e51e70e2b9c94b", url = "https://github.com/mvdan/sh/releases/download/v3.12.0/shfmt_v3.12.0_windows_amd64.exe"}
+
+[[tools.yq]]
+version = "4.50.1"
+backend = "aqua:mikefarah/yq"
+"platforms.linux-arm64" = { checksum = "sha256:cf0a663d8e4e00bb61507c5237b95b45a6aaa1fbedac77f4dc8abdadd5e2b745", url = "https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_arm64"}
+"platforms.linux-x64" = { checksum = "sha256:c7a1278e6bbc4924f41b56db838086c39d13ee25dcb22089e7fbf16ac901f0d4", url = "https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_amd64"}
+"platforms.macos-arm64" = { checksum = "sha256:589cd3e27b2a0ae62fc4513c7d18db56203aaf88bf7c480f0cb3d4f4d0ac5514", url = "https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_darwin_arm64"}
+"platforms.macos-x64" = { checksum = "sha256:6c24724c203f8ef0afaa4584d8b7baa150fec7f6d8a493efa49b80f620174119", url = "https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_darwin_amd64"}
+"platforms.windows-x64" = { checksum = "sha256:85c8c1b035c3e7cd10c503f1f00334b6edae18c9fd6b64a06b98d82449e20bf8", url = "https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_windows_amd64.exe"}

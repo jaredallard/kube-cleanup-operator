@@ -10,6 +10,8 @@ goreleaser = "latest"
 gotestsum = "1.13.0"
 "go:golang.org/x/tools/cmd/goimports" = "latest"
 shfmt = "latest"
+yq = "latest"
+helm = "4"
 
 [tasks.build]
 description = "Build a binary for the current platform/architecture"
